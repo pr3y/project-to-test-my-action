@@ -1,0 +1,28 @@
+name: Create Issue from a PR
+
+on:
+  pull_request:
+    types: [opened, edited]
+
+jobs:
+  create-issue:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Create Issue
+        uses: vitorsavian/create-issue-from-a-pr@latest
+        with:
+          org: "vitorsavian"
+          team: "TheLeagueOfHunters"
+          project: "project-to-test-my-action"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: |
+            ${{ github.event.pull_request.title }}
+          body: |
+            ${{ github.event.pull_request.body }}
+          user: ${{ github.actor }}
